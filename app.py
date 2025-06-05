@@ -146,7 +146,7 @@ def download_with_hi_py(video_url, audio_url, title, threads=32):
 
         # Run the modified script and capture output
         process = subprocess.Popen(
-            ["python", temp_path],
+            ["sys.executable", temp_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
