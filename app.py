@@ -116,7 +116,7 @@ def get_video_info(url):
 
 
 # Function to download video
-def download_with_hi_py(video_url, audio_url, title, threads=32):
+def download_pass(video_url, audio_url, title, threads=32):
     """Use download.py to download the video with customizable parameters"""
     try:
         # Create a safe filename from the title
@@ -128,9 +128,9 @@ def download_with_hi_py(video_url, audio_url, title, threads=32):
         audio_output = f"{safe_title}.m4a"
 
         # Create a modified version of download.py with the new URLs and parameters
-        hi_py_path = "download.py"  # Use the correct path to download.py in your environment
+        old_file = "download.py"  # Use the correct path to download.py in your environment
 
-        with open(hi_py_path, "r", encoding="utf-8") as f:
+        with open(old_file, "r", encoding="utf-8") as f:
             content = f.read()
 
         # Replace URLs and other settings in the content
@@ -140,13 +140,13 @@ def download_with_hi_py(video_url, audio_url, title, threads=32):
         content = content.replace("VIDEO_OUTPUT =", f"VIDEO_OUTPUT = \"{video_output}\"  #")
         content = content.replace("AUDIO_OUTPUT =", f"AUDIO_OUTPUT = \"{audio_output}\"  #")
         # Create a modified file in the current directory instead of using tempfile
-        temp_path = "hi_modified.py"
+        temp_path = "update_download.py"
         with open(temp_path, 'w', encoding="utf-8") as f:
             f.write(content)
 
         # Run the modified script and capture output
         process = subprocess.Popen(
-            [f"{sys.executable}", temp_path],
+            ["python", temp_path],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
@@ -385,7 +385,7 @@ if url:
                 st.markdown("### Download Progress")
 
                 # Start the download process with the video title as the filename
-                download_with_hi_py(
+                download_pass(
                     video_url,
                     audio_url,
                     video_info['title']
